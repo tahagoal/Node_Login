@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>IdealRatings Node</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+  <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+
+<body>
+
+	<div id="wrapper">
+
+		<form name="login-form" id="myForm" class="login-form" action="" method="post">
+		
+			<div class="header">
+			<h1>Login Form</h1>
+			<span>Fill out the form below to login to my super awesome imaginary control panel.</span>
+			</div>
+		
+			<div class="content">
+			<input name="username" type="text" id="username" class="input username" placeholder="Username" />
+			<div class="user-icon"></div>
+			<input name="password" type="password" id="password" class="input password" placeholder="Password" />
+			<div class="pass-icon"></div>		
+			</div>
+
+			<div class="footer">
+			<input type="submit" name="submit" value="Login" class="button" />
+			<h5 id="auth" style="color:green; display: none; text-align: center; margin-top: 10px;">You have successfully logged in</h5>
+			<h5 id="not_auth" style="color:red; display: none; text-align: center; margin-top: 10px;">Wrong username or password</h5>
+			</div>
+		
+		</form>
+
+	</div>
+	<div class="gradient"></div>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script type="text/JavaScript">
+
+		$('#myForm').submit(function(e){
+		    e.preventDefault();
+		    var http = new XMLHttpRequest();
+		    var username = $('#username').val();
+		    var password = $('#password').val();
+	        var params = "username=" + username + "&password=" + password;
+	        http.open("POST", "http://localhost:5000/data", true);
+
+	        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	        //http.setRequestHeader("Content-length", params.length);
+	        //http.setRequestHeader("Connection", "close");
+
+	        http.onreadystatechange = function() {
+	            if (http.readyState == 4) {
+	            	if(http.status == 200){
+		            	$('#not_auth').fadeOut();
+		            	$('#auth').fadeIn();
+	            	}
+	            	else {
+		            	$('#auth').fadeOut();
+		            	$('#not_auth').fadeIn();
+		            }
+	            }
+	        }
+	        http.send(params);
+		});
+    </script>
+
+</body>
+</html>
